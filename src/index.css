@@ -70,3 +70,38 @@ th {
 tr:nth-child(even) {
   background: rgba(255,255,255,.05);
 }
+
+.summary-card {
+  margin-top: 30px;
+  padding: 25px;
+  background: #1f2937;
+  border-radius: 14px;
+}
+
+.summary-card h3 {
+  margin-bottom: 20px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.summary-grid div {
+  background: #2b3648;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.summary-grid span {
+  display: block;
+  color: #9ca3af;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.summary-grid strong {
+  font-size: 24px;
+  color: white;
+}

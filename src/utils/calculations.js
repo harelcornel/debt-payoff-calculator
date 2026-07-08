@@ -35,7 +35,9 @@ export function calculatePayoffSchedule(
   loanAmount,
   interestRate,
   monthlyPayment
-) {
+  
+) 
+{
   const schedule = [];
 
   let balance = Number(loanAmount);
@@ -46,12 +48,17 @@ export function calculatePayoffSchedule(
 
   while (balance > 0) {
     const interest = Number((balance * rate).toFixed(2));
-    let principal = payment - interest;
+let principal = payment - interest;
 
-    // Prevent overpaying the last month
-    if (principal > balance) {
-      principal = balance;
-    }
+// Payment is too small to reduce the balance
+if (principal <= 0) {
+  return null;
+}
+
+// Prevent overpaying the last month
+if (principal > balance) {
+  principal = balance;
+}
 
     balance = Number((balance - principal).toFixed(2));
 

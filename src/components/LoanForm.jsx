@@ -1,4 +1,5 @@
 import { useState } from "react";
+import DebtSummary from "./DebtSummary";
 import PaymentTable from "./PaymentTable";
 import {
   formatCurrency,
@@ -19,14 +20,19 @@ function LoanForm() {
   // Event Handlers
   // =========================
   const handleCalculate = () => {
-    const result = calculatePayoffSchedule(
-      loanAmount,
-      interestRate,
-     monthlyPayment
-    );
+  const result = calculatePayoffSchedule(
+    loanAmount,
+    interestRate,
+    monthlyPayment
+  );
 
-    setSchedule(result);
-  };
+  if (result === null) {
+    alert("Monthly payment must be greater than the monthly interest.");
+    return;
+  }
+
+  setSchedule(result);
+};
 
   return (
     <main>
@@ -68,7 +74,11 @@ function LoanForm() {
       <button onClick={handleCalculate}>
         Calculate
       </button>
-
+      
+      <DebtSummary
+        schedule={schedule}
+        loanAmount={loanAmount}
+      />
       <PaymentTable schedule={schedule} />
 
     </main>
