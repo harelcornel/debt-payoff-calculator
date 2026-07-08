@@ -1,0 +1,58 @@
+.summary-card {
+  margin-top: 30px;
+}
+
+.summary-card h3 {
+  margin-bottom: 20px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.summary-grid div {
+  background: linear-gradient(
+      135deg,
+      #1f2937,
+      #374151
+  );
+
+  padding: 25px;
+
+  border-radius: 16px;
+
+  transition: .25s;
+
+  border: 1px solid rgba(255,255,255,.05);
+}
+
+.summary-grid div:hover {
+
+  transform: translateY(-5px);
+
+  border-color:#2563eb;
+}
+
+.summary-grid span {
+
+  display:block;
+
+  color:#9ca3af;
+
+  margin-bottom:10px;
+
+  font-size:14px;
+}
+
+.summary-grid strong{
+
+  font-size:28px;
+
+  color:white;
+
+  display:block;
+
+  margin-top:8px;
+}

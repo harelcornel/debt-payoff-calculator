@@ -38,7 +38,8 @@ function LoanForm() {
 };
 
   return (
-    <main>
+    <main className="dashboard">
+      <div className="card">
       <h2>Loan Information</h2>
 
       <div className="form-group">
@@ -86,11 +87,20 @@ function LoanForm() {
           ❌ {error}
         </div>
       )}
+     </div>
+
+    <div className="card">
+
       <DebtSummary
         schedule={schedule}
         loanAmount={loanAmount}
       />
-      <PaymentTable schedule={schedule} />
+
+      <PaymentTable
+      schedule={schedule}
+      />
+
+    </div>
 
     </main>
   );
