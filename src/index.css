@@ -49,3 +49,24 @@ main {
 .form-group input {
   width: 100%;
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: center;
+}
+
+th {
+  background: #2563eb;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background: rgba(255,255,255,.05);
+}

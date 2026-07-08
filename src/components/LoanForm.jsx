@@ -1,7 +1,8 @@
 import { useState } from "react";
+import PaymentTable from "./PaymentTable";
 import {
   formatCurrency,
-  calculateFirstMonth,
+  calculatePayoffSchedule,
 } from "../utils/calculations";
 import ResultCard from "./ResultCard";
 
@@ -12,24 +13,19 @@ function LoanForm() {
   const [loanAmount, setLoanAmount] = useState("");
   const [interestRate, setInterestRate] = useState("");
   const [monthlyPayment, setMonthlyPayment] = useState("");
-  const [result, setResult] = useState(null);
+  const [schedule, setSchedule] = useState([]);
 
   // =========================
   // Event Handlers
   // =========================
   const handleCalculate = () => {
-    const calculation = calculateFirstMonth(
+    const result = calculatePayoffSchedule(
       loanAmount,
       interestRate,
-      monthlyPayment
+     monthlyPayment
     );
 
-    if (!calculation) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
-    setResult(calculation);
+    setSchedule(result);
   };
 
   return (
@@ -73,12 +69,7 @@ function LoanForm() {
         Calculate
       </button>
 
-      <ResultCard
-        loanAmount={loanAmount}
-        interestRate={interestRate}
-        monthlyPayment={monthlyPayment}
-        result={result}
-      />
+      <PaymentTable schedule={schedule} />
 
     </main>
   );
