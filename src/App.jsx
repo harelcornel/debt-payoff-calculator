@@ -1,8 +1,11 @@
+import Header from "./components/Header";
+import LoanForm from "./components/LoanForm";
+
 function App() {
   return (
-    <div>
-      <h1>💰 Debt Payoff Calculator</h1>
-      <p>Built by Harel Bon Cornel</p>
+    <div className="app">
+      <Header />
+      <LoanForm />
     </div>
   );
 }
