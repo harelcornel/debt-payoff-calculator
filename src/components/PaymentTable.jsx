@@ -5,8 +5,8 @@ function PaymentTable({ schedule }) {
 
   return (
     <div className="result-card">
+      <div className="table-container">
       <h3>Payment Schedule</h3>
-
       <table>
         <thead>
           <tr>
@@ -38,6 +38,7 @@ function PaymentTable({ schedule }) {
         </tbody>
       </table>
     </div>
+   </div> 
   );
 }
 

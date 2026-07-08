@@ -15,6 +15,7 @@ function LoanForm() {
   const [interestRate, setInterestRate] = useState("");
   const [monthlyPayment, setMonthlyPayment] = useState("");
   const [schedule, setSchedule] = useState([]);
+  const [error, setError] = useState("");
 
   // =========================
   // Event Handlers
@@ -27,10 +28,12 @@ function LoanForm() {
   );
 
   if (result === null) {
-    alert("Monthly payment must be greater than the monthly interest.");
+    setError("Monthly payment must be greater than the monthly interest.");
+    setSchedule([]);
     return;
   }
 
+  setError("");
   setSchedule(result);
 };
 
@@ -71,10 +74,18 @@ function LoanForm() {
         />
       </div>
 
-      <button onClick={handleCalculate}>
-        Calculate
+      <button
+        onClick={handleCalculate}
+        disabled={!loanAmount || !interestRate || !monthlyPayment}
+        >
+          Calculate Schedule 🚀
       </button>
-      
+
+      {error && (
+        <div className="error-message">
+          ❌ {error}
+        </div>
+      )}
       <DebtSummary
         schedule={schedule}
         loanAmount={loanAmount}
