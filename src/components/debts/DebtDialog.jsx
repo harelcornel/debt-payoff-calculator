@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Dialog,
@@ -12,26 +12,42 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
-export default function AddDebtDialog({
+export default function DebtDialog({
   open,
   onOpenChange,
-  onSave,
+  debt,
+  onSubmit,
 }) {
-  const [form, setForm] = useState({
+  const emptyForm = {
     name: "",
     balance: "",
     apr: "",
     minimum: "",
-  });
+  };
+
+  const [form, setForm] = useState(emptyForm);
+
+  useEffect(() => {
+    if (debt) {
+      setForm({
+        name: debt.name,
+        balance: debt.balance,
+        apr: debt.apr,
+        minimum: debt.minimum,
+      });
+    } else {
+      setForm(emptyForm);
+    }
+  }, [debt, open]);
 
   function handleChange(e) {
-    setForm({
-      ...form,
+    setForm((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
   }
 
-  function handleSave() {
+  function handleSubmit() {
     if (
       !form.name ||
       !form.balance ||
@@ -41,19 +57,12 @@ export default function AddDebtDialog({
       return;
     }
 
-    onSave({
-      id: Date.now(),
+    onSubmit({
+      id: debt?.id ?? Date.now(),
       name: form.name,
       balance: Number(form.balance),
       apr: Number(form.apr),
       minimum: Number(form.minimum),
-    });
-
-    setForm({
-      name: "",
-      balance: "",
-      apr: "",
-      minimum: "",
     });
 
     onOpenChange(false);
@@ -62,8 +71,11 @@ export default function AddDebtDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-lg">
+
         <DialogHeader>
-          <DialogTitle>Add New Debt</DialogTitle>
+          <DialogTitle>
+            {debt ? "Edit Debt" : "Add New Debt"}
+          </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-5 py-4">
@@ -85,7 +97,6 @@ export default function AddDebtDialog({
             <Input
               name="balance"
               type="number"
-              placeholder="185000"
               value={form.balance}
               onChange={handleChange}
             />
@@ -97,7 +108,6 @@ export default function AddDebtDialog({
             <Input
               name="apr"
               type="number"
-              placeholder="24"
               value={form.apr}
               onChange={handleChange}
             />
@@ -109,7 +119,6 @@ export default function AddDebtDialog({
             <Input
               name="minimum"
               type="number"
-              placeholder="5500"
               value={form.minimum}
               onChange={handleChange}
             />
@@ -118,6 +127,7 @@ export default function AddDebtDialog({
         </div>
 
         <DialogFooter>
+
           <Button
             variant="outline"
             onClick={() => onOpenChange(false)}
@@ -125,10 +135,12 @@ export default function AddDebtDialog({
             Cancel
           </Button>
 
-          <Button onClick={handleSave}>
-            Save Debt
+          <Button onClick={handleSubmit}>
+            {debt ? "Update Debt" : "Save Debt"}
           </Button>
+
         </DialogFooter>
+
       </DialogContent>
     </Dialog>
   );

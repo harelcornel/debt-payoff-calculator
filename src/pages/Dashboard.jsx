@@ -1,48 +1,76 @@
-import AppLayout from "../components/layout/AppLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { motion } from "motion/react";
 import { useState } from "react";
+import { motion } from "motion/react";
+
+import AppLayout from "../components/layout/AppLayout";
+
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+
 import DebtList from "../components/debts/DebtList";
-import AddDebtDialog from "../components/debts/AddDebtDialog";
+import DebtDialog from "../components/debts/DebtDialog";
+
 import useDebts from "../hooks/useDebts";
 
-
 export default function Dashboard() {
-const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [selectedDebt, setSelectedDebt] = useState(null);
 
-const {
-  debts,
-  addDebt,
-  deleteDebt,
-  updateDebt,
-  totalDebt,
-  totalMinimum,
-  averageApr,
-} = useDebts();
+  const {
+    debts,
+    addDebt,
+    updateDebt,
+    deleteDebt,
+    totalDebt,
+    totalMinimum,
+    averageApr,
+  } = useDebts();
 
-const summaryCards = [
-  {
-    title: "Total Debt",
-    value: `₱${totalDebt.toLocaleString()}`,
-  },
-  {
-    title: "Monthly Minimum",
-    value: `₱${totalMinimum.toLocaleString()}`,
-  },
-  {
-    title: "Average APR",
-    value: `${averageApr.toFixed(1)}%`,
-  },
-  {
-    title: "Total Accounts",
-    value: debts.length,
-  },
-];
+  function handleAddClick() {
+    setSelectedDebt(null);
+    setOpen(true);
+  }
+
+  function handleEdit(debt) {
+    setSelectedDebt(debt);
+    setOpen(true);
+  }
+
+  function handleSubmit(debt) {
+    if (selectedDebt) {
+      updateDebt(debt);
+    } else {
+      addDebt(debt);
+    }
+
+    setSelectedDebt(null);
+    setOpen(false);
+  }
+
+  const summaryCards = [
+    {
+      title: "Total Debt",
+      value: `₱${totalDebt.toLocaleString()}`,
+    },
+    {
+      title: "Monthly Minimum",
+      value: `₱${totalMinimum.toLocaleString()}`,
+    },
+    {
+      title: "Average APR",
+      value: `${averageApr.toFixed(1)}%`,
+    },
+    {
+      title: "Total Accounts",
+      value: debts.length,
+    },
+  ];
 
   return (
-      <AppLayout
-        onAddDebt={() => setOpen(true)}
-      >
+    <AppLayout onAddDebt={handleAddClick}>
       <div className="mx-auto max-w-7xl space-y-8 p-8">
 
         {/* Header */}
@@ -92,12 +120,13 @@ const summaryCards = [
           <CardContent>
             <DebtList
               debts={debts}
+              onEdit={handleEdit}
               onDelete={deleteDebt}
             />
           </CardContent>
         </Card>
 
-        {/* Bottom Section */}
+        {/* Bottom */}
         <div className="grid gap-6 lg:grid-cols-2">
 
           <Card>
@@ -106,7 +135,7 @@ const summaryCards = [
             </CardHeader>
 
             <CardContent>
-              <div className="h-52 rounded-lg border border-dashed flex items-center justify-center text-muted-foreground">
+              <div className="flex h-52 items-center justify-center rounded-lg border border-dashed text-muted-foreground">
                 Strategy Controls
               </div>
             </CardContent>
@@ -118,7 +147,7 @@ const summaryCards = [
             </CardHeader>
 
             <CardContent>
-              <div className="h-52 rounded-lg border border-dashed flex items-center justify-center text-muted-foreground">
+              <div className="flex h-52 items-center justify-center rounded-lg border border-dashed text-muted-foreground">
                 Payoff Results
               </div>
             </CardContent>
@@ -127,10 +156,18 @@ const summaryCards = [
         </div>
 
       </div>
-      <AddDebtDialog
+
+      <DebtDialog
         open={open}
-        onOpenChange={setOpen}
-        onSave={addDebt}
+        onOpenChange={(value) => {
+          setOpen(value);
+
+          if (!value) {
+            setSelectedDebt(null);
+          }
+        }}
+        debt={selectedDebt}
+        onSubmit={handleSubmit}
       />
     </AppLayout>
   );
