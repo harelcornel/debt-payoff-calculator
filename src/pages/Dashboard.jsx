@@ -4,58 +4,21 @@ import { motion } from "motion/react";
 import { useState } from "react";
 import DebtList from "../components/debts/DebtList";
 import AddDebtDialog from "../components/debts/AddDebtDialog";
+import useDebts from "../hooks/useDebts";
 
 
 export default function Dashboard() {
-  const [debts, setDebts] = useState([
-    
-  {
-    id: 1,
-    name: "Credit Card",
-    balance: 185000,
-    apr: 24,
-    minimum: 5500,
-  },
-  {
-    id: 2,
-    name: "Personal Loan",
-    balance: 95000,
-    apr: 12,
-    minimum: 3200,
-  },
-  {
-    id: 3,
-    name: "Car Loan",
-    balance: 420000,
-    apr: 7,
-    minimum: 9800,
-  },
-]);
-
 const [open, setOpen] = useState(false);
-function handleDelete(id) {
-  setDebts((current) =>
-    current.filter((debt) => debt.id !== id)
-  );
-}
 
-function handleAddDebt(newDebt) {
-  setDebts((current) => [...current, newDebt]);
-}
-const totalDebt = debts.reduce(
-  (sum, debt) => sum + debt.balance,
-  0
-);
-
-const totalMinimum = debts.reduce(
-  (sum, debt) => sum + debt.minimum,
-  0
-);
-
-const averageApr =
-  debts.length > 0
-    ? debts.reduce((sum, debt) => sum + debt.apr, 0) / debts.length
-    : 0;
+const {
+  debts,
+  addDebt,
+  deleteDebt,
+  updateDebt,
+  totalDebt,
+  totalMinimum,
+  averageApr,
+} = useDebts();
 
 const summaryCards = [
   {
@@ -129,7 +92,7 @@ const summaryCards = [
           <CardContent>
             <DebtList
               debts={debts}
-              onDelete={handleDelete}
+              onDelete={deleteDebt}
             />
           </CardContent>
         </Card>
@@ -167,7 +130,7 @@ const summaryCards = [
       <AddDebtDialog
         open={open}
         onOpenChange={setOpen}
-        onSave={handleAddDebt}
+        onSave={addDebt}
       />
     </AppLayout>
   );
