@@ -1,6 +1,5 @@
 import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,15 +45,10 @@ export default function DebtCard({
 
             <DropdownMenu>
 
-              <DropdownMenuTrigger asChild>
-
-                <Button
-                  variant="ghost"
-                  size="icon"
-                >
-                  <MoreHorizontal className="h-5 w-5" />
-                </Button>
-
+              <DropdownMenuTrigger
+                className="inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-accent transition-colors"
+              >
+                <MoreHorizontal className="h-5 w-5" />
               </DropdownMenuTrigger>
 
               <DropdownMenuContent align="end">

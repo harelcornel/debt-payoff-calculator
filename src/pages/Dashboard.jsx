@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { motion } from "motion/react";
 import { useState } from "react";
 import DebtList from "../components/debts/DebtList";
+import AddDebtDialog from "../components/debts/AddDebtDialog";
 
 
 export default function Dashboard() {
@@ -30,10 +31,16 @@ export default function Dashboard() {
     minimum: 9800,
   },
 ]);
+
+const [open, setOpen] = useState(false);
 function handleDelete(id) {
   setDebts((current) =>
     current.filter((debt) => debt.id !== id)
   );
+}
+
+function handleAddDebt(newDebt) {
+  setDebts((current) => [...current, newDebt]);
 }
 const totalDebt = debts.reduce(
   (sum, debt) => sum + debt.balance,
@@ -46,8 +53,9 @@ const totalMinimum = debts.reduce(
 );
 
 const averageApr =
-  debts.reduce((sum, debt) => sum + debt.apr, 0) /
-  debts.length;
+  debts.length > 0
+    ? debts.reduce((sum, debt) => sum + debt.apr, 0) / debts.length
+    : 0;
 
 const summaryCards = [
   {
@@ -69,7 +77,9 @@ const summaryCards = [
 ];
 
   return (
-    <AppLayout>
+      <AppLayout
+        onAddDebt={() => setOpen(true)}
+      >
       <div className="mx-auto max-w-7xl space-y-8 p-8">
 
         {/* Header */}
@@ -110,7 +120,7 @@ const summaryCards = [
           ))}
         </section>
 
-        {/* Debt Table */}
+        {/* Debt List */}
         <Card>
           <CardHeader>
             <CardTitle>Your Debts</CardTitle>
@@ -154,6 +164,11 @@ const summaryCards = [
         </div>
 
       </div>
+      <AddDebtDialog
+        open={open}
+        onOpenChange={setOpen}
+        onSave={handleAddDebt}
+      />
     </AppLayout>
   );
 }
