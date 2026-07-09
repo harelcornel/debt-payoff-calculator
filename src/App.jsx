@@ -1,13 +1,7 @@
-import Header from "./components/Header";
-import LoanForm from "./components/LoanForm";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
-  return (
-    <div className="app">
-      <Header />
-      <LoanForm />
-    </div>
-  );
+  return <Dashboard />;
 }
 
 export default App;
