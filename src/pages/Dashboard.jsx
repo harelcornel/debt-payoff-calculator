@@ -1,8 +1,17 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-
+import { calculatePayoff } from "../utils/payoffEngine";
 import AppLayout from "../components/layout/AppLayout";
-
+import StrategyCard from "../components/calculator/StrategyCard";
+import ResultCard from "../components/calculator/ResultCard";
+import Timeline from "../components/calculator/Timeline";
+import DebtList from "../components/debts/DebtList";
+import DebtDialog from "../components/debts/DebtDialog";
+import useDebts from "../hooks/useDebts";
+import DebtBalanceChart from "../components/charts/DebtBalanceChart";
+import DebtDistributionChart from "../components/charts/DebtDistributionChart";
+import InterestPrincipalChart from "../components/charts/InterestPrincipalChart";
+import StrategyComparison from "../components/calculator/StrategyComparison";
 import {
   Card,
   CardContent,
@@ -10,14 +19,11 @@ import {
   CardTitle,
 } from "../components/ui/card";
 
-import DebtList from "../components/debts/DebtList";
-import DebtDialog from "../components/debts/DebtDialog";
-
-import useDebts from "../hooks/useDebts";
 
 export default function Dashboard() {
   const [open, setOpen] = useState(false);
   const [selectedDebt, setSelectedDebt] = useState(null);
+  const [result, setResult] = useState(null);
 
   const {
     debts,
@@ -50,6 +56,49 @@ export default function Dashboard() {
     setOpen(false);
   }
 
+function handleCalculate(data) {
+const avalanche = calculatePayoff(
+  debts,
+  "avalanche",
+  data.extraPayment
+);
+
+const snowball = calculatePayoff(
+  debts,
+  "snowball",
+  data.extraPayment
+);
+
+const calculation =
+  data.strategy === "avalanche"
+    ? avalanche
+    : snowball;
+
+  if (!calculation) return;
+
+  setResult({
+    strategy:
+      data.strategy === "avalanche"
+        ? "Debt Avalanche"
+        : "Debt Snowball",
+
+    extraPayment: data.extraPayment,
+
+    totalDebts: debts.length,
+
+    months: calculation.months,
+
+    totalInterest: calculation.totalInterest,
+
+    payoffDate:
+      calculation.payoffDate.toLocaleDateString(),
+
+    timeline: calculation.timeline,
+    avalanche,
+    snowball,
+  });
+}
+
   const summaryCards = [
     {
       title: "Total Debt",
@@ -73,7 +122,6 @@ export default function Dashboard() {
     <AppLayout onAddDebt={handleAddClick}>
       <div className="mx-auto max-w-7xl space-y-8 p-8">
 
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -94,7 +142,7 @@ export default function Dashboard() {
               key={card.title}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.08 }}
             >
               <Card className="transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                 <CardContent className="p-6">
@@ -111,7 +159,7 @@ export default function Dashboard() {
           ))}
         </section>
 
-        {/* Debt List */}
+        {/* Debts */}
         <Card>
           <CardHeader>
             <CardTitle>Your Debts</CardTitle>
@@ -126,34 +174,51 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Bottom */}
-        <div className="grid gap-6 lg:grid-cols-2">
+        {/* Calculator */}
+          <div className="grid gap-6 lg:grid-cols-2">
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Payoff Strategy</CardTitle>
-            </CardHeader>
+            <StrategyCard
+              debts={debts}
+              onCalculate={handleCalculate}
+            />
 
-            <CardContent>
-              <div className="flex h-52 items-center justify-center rounded-lg border border-dashed text-muted-foreground">
-                Strategy Controls
-              </div>
-            </CardContent>
-          </Card>
+            <ResultCard
+              result={result}
+            />
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Results</CardTitle>
-            </CardHeader>
+          </div>
 
-            <CardContent>
-              <div className="flex h-52 items-center justify-center rounded-lg border border-dashed text-muted-foreground">
-                Payoff Results
-              </div>
-            </CardContent>
-          </Card>
+          {result && (
+            <StrategyComparison
+              avalanche={result.avalanche}
+              snowball={result.snowball}
+            />
+          )}
+
+        {result && (
+        <>
+        <div className="grid gap-6 lg:grid-cols-3">
+
+          <DebtBalanceChart
+            timeline={result.timeline}
+          />
+
+          <DebtDistributionChart
+            debts={debts}
+          />
+
+          <InterestPrincipalChart
+            debts={debts}
+            result={result}
+          />
 
         </div>
+
+          <Timeline
+            timeline={result.timeline}
+          />
+        </>
+        )}
 
       </div>
 

@@ -7,7 +7,6 @@ export default function AppLayout({
   return (
     <div className="min-h-screen bg-background">
       <Header onAddDebt={onAddDebt} />
-
       <main>{children}</main>
     </div>
   );

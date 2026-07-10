@@ -21,7 +21,8 @@ export default function DebtDialog({
   const emptyForm = {
     name: "",
     balance: "",
-    apr: "",
+    interestType: "monthly",
+    interestRate: "",
     minimum: "",
   };
 
@@ -32,7 +33,14 @@ export default function DebtDialog({
       setForm({
         name: debt.name,
         balance: debt.balance,
-        apr: debt.apr,
+
+        // Backward compatibility
+        interestType: debt.interestType ?? "monthly",
+        interestRate:
+          debt.interestRate ??
+          debt.apr ??
+          "",
+
         minimum: debt.minimum,
       });
     } else {
@@ -51,7 +59,7 @@ export default function DebtDialog({
     if (
       !form.name ||
       !form.balance ||
-      !form.apr ||
+      !form.interestRate ||
       !form.minimum
     ) {
       return;
@@ -59,9 +67,17 @@ export default function DebtDialog({
 
     onSubmit({
       id: debt?.id ?? Date.now(),
+
       name: form.name,
+
       balance: Number(form.balance),
-      apr: Number(form.apr),
+
+      interestType: form.interestType,
+
+      interestRate: Number(
+        form.interestRate
+      ),
+
       minimum: Number(form.minimum),
     });
 
@@ -69,12 +85,17 @@ export default function DebtDialog({
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog
+      open={open}
+      onOpenChange={onOpenChange}
+    >
       <DialogContent className="sm:max-w-lg">
 
         <DialogHeader>
           <DialogTitle>
-            {debt ? "Edit Debt" : "Add New Debt"}
+            {debt
+              ? "Edit Debt"
+              : "Add New Debt"}
           </DialogTitle>
         </DialogHeader>
 
@@ -103,18 +124,56 @@ export default function DebtDialog({
           </div>
 
           <div className="space-y-2">
-            <Label>APR (%)</Label>
 
-            <Input
-              name="apr"
-              type="number"
-              value={form.apr}
+            <Label>Interest Type</Label>
+
+            <select
+              name="interestType"
+              value={form.interestType}
               onChange={handleChange}
-            />
+              className="w-full rounded-md border bg-background px-3 py-2"
+            >
+              <option value="monthly">
+                Monthly Interest
+              </option>
+
+              <option value="apr">
+                Annual APR
+              </option>
+
+            </select>
+
           </div>
 
           <div className="space-y-2">
-            <Label>Minimum Monthly Payment</Label>
+
+            <Label>
+              {form.interestType ===
+              "monthly"
+                ? "Monthly Interest (%)"
+                : "Annual APR (%)"}
+            </Label>
+
+            <Input
+              name="interestRate"
+              type="number"
+              placeholder={
+                form.interestType ===
+                "monthly"
+                  ? "2.5"
+                  : "24"
+              }
+              value={form.interestRate}
+              onChange={handleChange}
+            />
+
+          </div>
+
+          <div className="space-y-2">
+
+            <Label>
+              Minimum Monthly Payment
+            </Label>
 
             <Input
               name="minimum"
@@ -122,6 +181,7 @@ export default function DebtDialog({
               value={form.minimum}
               onChange={handleChange}
             />
+
           </div>
 
         </div>
@@ -130,13 +190,17 @@ export default function DebtDialog({
 
           <Button
             variant="outline"
-            onClick={() => onOpenChange(false)}
+            onClick={() =>
+              onOpenChange(false)
+            }
           >
             Cancel
           </Button>
 
           <Button onClick={handleSubmit}>
-            {debt ? "Update Debt" : "Save Debt"}
+            {debt
+              ? "Update Debt"
+              : "Save Debt"}
           </Button>
 
         </DialogFooter>

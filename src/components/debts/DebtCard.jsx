@@ -40,26 +40,56 @@ function getDebtIcon(name) {
   return <Wallet className="h-5 w-5" />;
 }
 
-function getAprBadge(apr) {
-  if (apr >= 20)
+function getInterestBadge(debt) {
+  const interestType = debt.interestType ?? "apr";
+
+  const rate = Number(
+    debt.interestRate ??
+    debt.apr ??
+    0
+  );
+
+  if (interestType === "monthly") {
+    if (rate >= 3)
+      return {
+        text: `${rate}% / month`,
+        className:
+          "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300",
+      };
+
+    if (rate >= 2)
+      return {
+        text: `${rate}% / month`,
+        className:
+          "bg-yellow-100 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-300",
+      };
+
     return {
-      text: "High APR",
+      text: `${rate}% / month`,
+      className:
+        "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300",
+    };
+  }
+
+  if (rate >= 20)
+    return {
+      text: `${rate}% APR`,
       className:
         "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300",
     };
 
-  if (apr >= 10)
+  if (rate >= 10)
     return {
-      text: "Medium APR",
+      text: `${rate}% APR`,
       className:
         "bg-yellow-100 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-300",
     };
 
   return {
-    text: "Low APR",
+    text: `${rate}% APR`,
     className:
       "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300",
-  };
+    };
 }
 
 export default function DebtCard({
@@ -68,7 +98,7 @@ export default function DebtCard({
   onEdit,
   onDelete,
 }) {
-  const badge = getAprBadge(debt.apr);
+const badge = getInterestBadge(debt);
 
   const percentage =
     totalDebt > 0
