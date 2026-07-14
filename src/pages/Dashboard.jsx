@@ -237,3 +237,19 @@ const calculation =
     </AppLayout>
   );
 }
+
+function updateDebt(updatedDebt) {
+  console.log("UPDATE CALLED", updatedDebt);
+
+  setDebts((current) =>
+    current.map((debt) =>
+      debt.id === updatedDebt.id
+        ? updatedDebt
+        : debt
+    )
+  );
+
+  toast.success("Debt Updated", {
+    description: `${updatedDebt.name} has been updated.`,
+  });
+}
