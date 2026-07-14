@@ -1,16 +1,169 @@
-# React + Vite
+# 💸 Debt Pilot
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern debt payoff calculator built with **React** that helps users compare the **Debt Avalanche** and **Debt Snowball** strategies to become debt-free faster.
 
-Currently, two official plugins are available:
+🌐 **Live Demo:** https://debt-pilot-self.vercel.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 🏔️ Debt Avalanche Strategy
+- ❄️ Debt Snowball Strategy
+- 💰 Annual APR & Monthly Interest Support
+- 📈 Interactive Charts
+- 🗓️ Payoff Timeline Visualization
+- 🏆 Strategy Comparison
+- 🌙 Dark Mode
+- 💾 Automatic Local Storage
+- 📱 Fully Responsive Design
+- ⚡ Smooth UI Animations
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📸 Preview
+
+> Add screenshots of your application here.
+
+Example:
+
+- Dashboard (Light Mode)
+- Dashboard (Dark Mode)
+- Strategy Comparison
+- Payoff Timeline
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- React
+- Vite
+- Tailwind CSS v4
+- shadcn/ui
+
+### Libraries
+
+- Recharts
+- Framer Motion
+- Lucide React
+- Sonner
+- next-themes
+
+---
+
+## 🚀 Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/harelcornel/debt-pilot.git
+```
+
+Go into the project:
+
+```bash
+cd debt-pilot
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+---
+
+## 🧠 How It Works
+
+Debt Pilot compares two popular debt repayment methods.
+
+### 🏔️ Debt Avalanche
+
+Prioritizes debts with the highest interest rates first to minimize the total interest paid.
+
+### ❄️ Debt Snowball
+
+Prioritizes the smallest balances first to build momentum through quick wins.
+
+After running the simulation, Debt Pilot compares both strategies and recommends the one that saves the most interest.
+
+---
+
+## 📂 Project Structure
+
+```
+src/
+├── components/
+│   ├── calculator/
+│   ├── charts/
+│   ├── debts/
+│   ├── layout/
+│   └── ui/
+├── hooks/
+├── pages/
+├── utils/
+│   └── payoffEngine/
+└── App.jsx
+```
+
+---
+
+## 🎯 Skills Demonstrated
+
+- React Component Architecture
+- Custom React Hooks
+- CRUD Operations
+- Local Storage Persistence
+- Financial Calculation Engine
+- Data Visualization
+- Responsive Design
+- Dark Mode
+- State Management
+- Git & GitHub
+- Vercel Deployment
+
+---
+
+## 🔮 Future Improvements
+
+- User Authentication
+- Cloud Sync
+- Budget Planner
+- Export to PDF
+- Multiple Payment Scenarios
+- Payment Reminders
+
+---
+
+## 👨‍💻 Author
+
+**Harel Bon Cornel**
+
+🌐 Portfolio  
+https://harelcornel.vercel.app/
+
+💻 GitHub  
+https://github.com/harelcornel
+
+🔗 LinkedIn  
+(Add your LinkedIn profile)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
