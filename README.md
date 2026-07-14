@@ -147,7 +147,7 @@ https://harelcornel.vercel.app/
 https://github.com/harelcornel
 
 🔗 LinkedIn  
-(Add your LinkedIn profile)
+https://www.linkedin.com/in/harelcornel
 
 ---
 
