@@ -10,9 +10,9 @@ export default function Header({ onAddDebt }) {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-8">
 
         <div>
-          <h1 className="text-lg font-semibold">
-            Debt Payoff Calculator
-          </h1>
+            <h1 className="text-xl font-bold tracking-tight">
+              Debt Pilot
+            </h1>
         </div>
 
         <div className="flex items-center gap-2">
