@@ -21,19 +21,6 @@ A modern debt payoff calculator built with **React** that helps users compare th
 
 ---
 
-## 📸 Preview
-
-> Add screenshots of your application here.
-
-Example:
-
-- Dashboard (Light Mode)
-- Dashboard (Dark Mode)
-- Strategy Comparison
-- Payoff Timeline
-
----
-
 ## 🛠️ Tech Stack
 
 ### Frontend
